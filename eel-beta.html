@@ -1,10 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Eel Beta 0.1 | Zay It & Code It</title><style>
-*{box-sizing:border-box}body{font-family:system-ui,Arial,sans-serif;background:#f5f7ff;color:#17254d;margin:0;padding:20px}main{max-width:780px;margin:auto}.panel{background:white;border:1px solid #e1e6fa;border-radius:18px;padding:18px;box-shadow:0 4px 16px #1a225011}h1{margin-bottom:6px}.muted{color:#526080}.game{display:block;width:100%;max-width:600px;aspect-ratio:1;margin:auto;border-radius:12px;border:2px solid #35664a;touch-action:none}button,.back{background:#5369f8;color:white;border:0;border-radius:10px;padding:12px 18px;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none}button:focus-visible{outline:3px solid orange}button.secondary{background:#e7ebff;color:#26367a}.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.controls{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:8px;justify-content:center;margin:16px 0}.controls button{padding:0;touch-action:none}.up{grid-column:2}.left{grid-column:1;grid-row:2}.down{grid-column:2;grid-row:2}.right{grid-column:3;grid-row:2}pre{white-space:pre;overflow:auto;background:#131d38;color:#eaf0ff;padding:16px;border-radius:12px;font-size:13px}details{margin-top:24px}summary{cursor:pointer;font-weight:bold}small{color:#526080}</style></head><body><main><p><a href="./index.html">← Back to Zay It & Code It</a></p><h1>🐍 Eel Beta 0.1</h1><p class="muted">Work in Progress · Browser adaptation of Zay’s Pygame Zero game</p><div class="panel"><canvas class="game" id="game" width="600" height="600" aria-label="Blue player collects red apples"></canvas><div class="bar"><strong id="score" aria-live="polite">SCORE: 0</strong><button id="restart" class="secondary">↻ Restart</button></div><div class="controls" aria-label="Movement controls"><button class="up" data-key="ArrowUp" aria-label="Move up">↑</button><button class="left" data-key="ArrowLeft" aria-label="Move left">←</button><button class="down" data-key="ArrowDown" aria-label="Move down">↓</button><button class="right" data-key="ArrowRight" aria-label="Move right">→</button></div><small>Use arrow keys on a computer, or hold the buttons on a phone. Collect red apples for points. The game is still being developed!</small></div><details><summary>View Zay’s original Pygame Zero Python code</summary><p class="muted">The code below is preserved from his uploaded file. This playable web version is written in JavaScript because GitHub Pages cannot directly run desktop Pygame Zero.</p><pre>import pgzrun
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Eel Beta 0.2 | Zay It & Code It</title><style>
+*{box-sizing:border-box}body{font-family:system-ui,Arial,sans-serif;background:#f5f7ff;color:#17254d;margin:0;padding:20px}main{max-width:780px;margin:auto}.panel{background:white;border:1px solid #e1e6fa;border-radius:18px;padding:18px;box-shadow:0 4px 16px #1a225011}h1{margin-bottom:6px}.muted{color:#526080}.game{display:block;width:100%;max-width:600px;aspect-ratio:1;margin:auto;border-radius:12px;border:2px solid #4b88ae;touch-action:none}button,.back{background:#5369f8;color:white;border:0;border-radius:10px;padding:12px 18px;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none}button:focus-visible{outline:3px solid orange}button.secondary{background:#e7ebff;color:#26367a}.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.controls{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:8px;justify-content:center;margin:16px 0}.controls button{padding:0;touch-action:none}.up{grid-column:2}.left{grid-column:1;grid-row:2}.down{grid-column:2;grid-row:2}.right{grid-column:3;grid-row:2}pre{white-space:pre;overflow:auto;background:#131d38;color:#eaf0ff;padding:16px;border-radius:12px;font-size:13px}details{margin-top:24px}summary{cursor:pointer;font-weight:bold}small{color:#526080}</style></head><body><main><p><a href="./index.html">← Back to Zay It & Code It</a></p><h1>🐍 Eel Beta 0.2</h1><p class="muted">Work in Progress · Browser adaptation of Zay’s Pygame Zero game</p><div class="panel"><canvas class="game" id="game" width="600" height="600" aria-label="Blue segmented eel collects yellow food"></canvas><div class="bar"><strong id="score" aria-live="polite">SCORE: 0</strong><button id="restart" class="secondary">↻ Restart</button></div><div class="controls" aria-label="Movement controls"><button class="up" data-key="ArrowUp" aria-label="Move up">↑</button><button class="left" data-key="ArrowLeft" aria-label="Move left">←</button><button class="down" data-key="ArrowDown" aria-label="Move down">↓</button><button class="right" data-key="ArrowRight" aria-label="Move right">→</button></div><small>Use arrow keys on a computer, or hold the buttons on a phone. Collect yellow food to score and grow your eel. The game is still being developed!</small></div><details><summary>View Zay’s original Pygame Zero Python code</summary><p class="muted">The code below is preserved from his uploaded file. This playable web version is written in JavaScript because GitHub Pages cannot directly run desktop Pygame Zero.</p><pre>import pgzrun
 import random
 
 WIDTH = 600
 HEIGHT = 600
-TITLE = &quot;Snake Game 2&quot;
+TITLE = &quot;Eel Game Beta&quot;
 
 x = 300
 y = 300
@@ -12,15 +12,32 @@ score = 0
 applex = random.randint(0, 600)
 appley = random.randint(50, 600)
 
+length = 5      
+GAP = 2        
+trail = []     
+
+for k in range(length * GAP, -1, -1):
+    trail.append((x, y + k * 5))
+
 def draw():
-    screen.fill(&quot;lightgreen&quot;)
-    screen.draw.filled_circle((x, y), 10, &quot;blue&quot;)
-    screen.draw.filled_circle((applex, appley), 10, &quot;red&quot;)
+    screen.fill(&quot;lightblue&quot;)
+    for i in range(length - 1, -1, -1):
+        index = len(trail) - 1 - i * GAP
+        if index &gt;= 0:
+            bx, by = trail[index]
+            if i == 0:
+                screen.draw.filled_rect(Rect(bx, by, 11, 11),  &quot;darkblue&quot;)
+            else:
+                screen.draw.filled_rect(Rect(bx, by, 10, 10),  &quot;blue&quot;)
+
+    screen.draw.filled_circle((applex, appley), 5, &quot;yellow&quot;)
     screen.draw.text(&quot;SCORE:&quot; + str(score), (10, 10), fontsize=30, color=&quot;black&quot;)
-    print(applex, &quot; &quot;, appley)
-    
+    #print(applex, &quot; &quot;, appley)
+
 def update():
     global x, y, applex, appley
+    old_x = x
+    old_y = y
     if keyboard.left:
         x -= 5
     if keyboard.right:
@@ -37,16 +54,78 @@ def update():
         y = 590
     if y &lt; 50:
         y = 50
-    distance(x, y, applex, appley)
+
+  
+    if x != old_x or y != old_y:
+        trail.append((x, y))
         
+        while len(trail) &gt; length * GAP + 1:
+            trail.pop(0)
+
+    distance(x, y, applex, appley)
+
 def distance(px, py, fx, fy):
-    global applex, appley, score
+    global applex, appley, score, length
     if abs(px - fx) &lt; 25 and abs(py - fy) &lt; 25:
         applex = random.randint(0, 600)
         appley = random.randint(50, 600)
         score += 1
-    
-    
+        length += 1  
+
 pgzrun.go()</pre></details></main><script>
-(()=>{'use strict';const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),scoreEl=document.getElementById('score');let x,y,appleX,appleY,score;const keys=new Set();function spawn(){appleX=10+Math.floor(Math.random()*581);appleY=60+Math.floor(Math.random()*531)}function reset(){x=300;y=300;score=0;keys.clear();spawn();scoreEl.textContent='SCORE: 0'}function draw(){ctx.fillStyle='lightgreen';ctx.fillRect(0,0,600,600);ctx.fillStyle='blue';ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);ctx.fill();ctx.fillStyle='red';ctx.beginPath();ctx.arc(appleX,appleY,10,0,Math.PI*2);ctx.fill();ctx.fillStyle='black';ctx.font='30px Arial';ctx.fillText('SCORE:'+score,10,32)}function tick(){if(keys.has('ArrowLeft'))x-=5;if(keys.has('ArrowRight'))x+=5;if(keys.has('ArrowUp'))y-=5;if(keys.has('ArrowDown'))y+=5;x=Math.max(10,Math.min(590,x));y=Math.max(50,Math.min(590,y));if(Math.abs(x-appleX)<25&&Math.abs(y-appleY)<25){score++;scoreEl.textContent='SCORE: '+score;spawn()}draw()}let previous=0;function loop(now){if(now-previous>=1000/60){tick();previous=now}requestAnimationFrame(loop)}const allowed=new Set(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown']);window.addEventListener('keydown',e=>{if(allowed.has(e.key)){e.preventDefault();keys.add(e.key)}});window.addEventListener('keyup',e=>{keys.delete(e.key)});window.addEventListener('blur',()=>keys.clear());document.querySelectorAll('[data-key]').forEach(btn=>{const key=btn.dataset.key;const stop=e=>{keys.delete(key);if(e.cancelable)e.preventDefault()};btn.addEventListener('pointerdown',e=>{e.preventDefault();btn.setPointerCapture(e.pointerId);keys.add(key)});btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);btn.addEventListener('lostpointercapture',()=>keys.delete(key))});document.getElementById('restart').addEventListener('click',reset);reset();requestAnimationFrame(loop)})();
+(()=>{'use strict';
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),scoreEl=document.getElementById('score');
+const WIDTH=600,HEIGHT=600,GAP=2;
+const keys=new Set(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown']);
+const pressed=new Set();
+let x,y,appleX,appleY,score,length,trail;
+const randint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function spawn(){appleX=randint(5,595);appleY=randint(55,595);}
+function reset(){
+ x=300;y=300;score=0;length=5;trail=[];pressed.clear();
+ for(let k=length*GAP;k>=0;k--)trail.push([x,y+k*5]);
+ spawn();scoreEl.textContent='SCORE: 0';draw();
+}
+function draw(){
+ ctx.fillStyle='lightblue';ctx.fillRect(0,0,WIDTH,HEIGHT);
+ for(let i=length-1;i>=0;i--){
+  const index=trail.length-1-i*GAP;
+  if(index>=0){const [bx,by]=trail[index];const size=i===0?11:10;
+   ctx.fillStyle=i===0?'darkblue':'blue';ctx.fillRect(bx,by,size,size);
+  }
+ }
+ ctx.fillStyle='yellow';ctx.beginPath();ctx.arc(appleX,appleY,5,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='black';ctx.font='30px Arial';ctx.fillText('SCORE:'+score,10,32);
+}
+function tick(){
+ const oldX=x,oldY=y;
+ if(pressed.has('ArrowLeft'))x-=5;
+ if(pressed.has('ArrowRight'))x+=5;
+ if(pressed.has('ArrowUp'))y-=5;
+ if(pressed.has('ArrowDown'))y+=5;
+ x=Math.max(10,Math.min(590,x));y=Math.max(50,Math.min(590,y));
+ if(x!==oldX||y!==oldY){
+  trail.push([x,y]);
+  while(trail.length>length*GAP+1)trail.shift();
+ }
+ if(Math.abs(x-appleX)<25&&Math.abs(y-appleY)<25){
+  score++;length++;scoreEl.textContent='SCORE: '+score;spawn();
+ }
+ draw();
+}
+let last=0;
+function loop(now){if(now-last>=1000/60){tick();last=now;}requestAnimationFrame(loop);}
+window.addEventListener('keydown',e=>{if(keys.has(e.key)&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();pressed.add(e.key);}});
+window.addEventListener('keyup',e=>pressed.delete(e.key));
+window.addEventListener('blur',()=>pressed.clear());
+document.querySelectorAll('[data-key]').forEach(btn=>{
+ const key=btn.dataset.key;
+ const stop=e=>{pressed.delete(key);if(e.cancelable)e.preventDefault();};
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();btn.setPointerCapture(e.pointerId);pressed.add(key);});
+ btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);
+ btn.addEventListener('lostpointercapture',()=>pressed.delete(key));
+});
+document.getElementById('restart').addEventListener('click',reset);
+reset();requestAnimationFrame(loop);
+})();
 </script></body></html>
